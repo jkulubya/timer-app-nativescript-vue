@@ -70,7 +70,7 @@
             },
 
             onStartTimerTap() {
-                this.$router.push({ name: 'Timer', params: { duration: this.duration }})
+                this.$router.push({ name: 'Timer', params: { duration: this.getTotalDuration() }})
             }
         },
         filters: {
