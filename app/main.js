@@ -1,10 +1,22 @@
 import Vue from 'nativescript-vue'
+import VueRouter from 'vue-router'
 import App from './components/App.vue'
+import Timer from './components/ViewTimer.vue'
+
+Vue.use(VueRouter)
+
+const routes = [
+    { path: '/home', component: App },
+    { name: 'Timer', path: '/timer', component: Timer }
+  ]
+
+const router = new VueRouter({
+    routes
+})
+
+router.replace('/home');
 
 new Vue({
-    render: h => h('app'),
-
-    components: {
-        App
-    }
+    router,
+    template: `<router-page />`
 }).$start();
