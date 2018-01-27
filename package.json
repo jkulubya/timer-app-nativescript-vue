@@ -7,8 +7,8 @@
     "id": "org.nativescript.timerapp"
   },
   "dependencies": {
-    "luxon": "0.0.21",
-    "nativescript-vue": "^0.1.6",
+    "luxon": "0.3.1",
+    "nativescript-vue": "^0.7.11",
     "tns-core-modules": "3.3.0",
     "vue-router": "^3.0.1"
   },

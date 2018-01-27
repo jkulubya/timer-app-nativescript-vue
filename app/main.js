@@ -11,12 +11,12 @@ const routes = [
   ]
 
 const router = new VueRouter({
+    pageRouting: true,
     routes
 })
 
 router.replace('/home');
 
 new Vue({
-    router,
-    template: `<router-page />`
+    router
 }).$start();
