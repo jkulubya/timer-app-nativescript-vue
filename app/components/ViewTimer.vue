@@ -1,12 +1,21 @@
 <template>
-    <page actionBarHidden="true" ref="page">
+    <page
+        actionBarHidden="true"
+        :class="{'view-timer': true, 'view-timer-done': countdownFinished}">
         <stack-layout>
             <grid-layout columns="*" rows="3*,*,*" height="240">
-                <label :text="timeLeftxv" col="0" row="0"></label>
-                <button text="||" col="0" row="1"></button>
+                <label
+                    class="time-left"
+                    :text="timeLeftString"
+                    col="0"
+                    row="0"></label>
+                <label
+                    class="pause-button"
+                    text="||"
+                    col="0"
+                    row="1"></label>
             </grid-layout>
             <button text="Stop" @tap="onStopButtonTap"></button>
-            <label v-if="countdownFinished">Time's up</label>
         </stack-layout>
     </page>
 </template>
@@ -17,21 +26,26 @@
     export default {
         data() {
             return {
-                duration: null,
-                startTime: 0,
-                currentTime: 0,
+                duration: 0,
+                times: {
+                    startTime: 0,
+                    currentTime: 0
+                },                
                 timerId: null,
                 timerRunning: false
             }
         },
+
+
         computed: {
             millisecondsLeft() {
-                return (this.startTime + this.duration - this.currentTime)
+                return (this.times.startTime + this.duration - this.times.currentTime)
             },
 
             timeLeft() {
-                if(this.millisecondsLeft <= 0) {
+                if(this.millisecondsLeft <= 0) { //TODO stop counting anything when time is up
                     return {
+
                         hours: 0,
                         minutes: 0,
                         seconds: 0
@@ -43,67 +57,97 @@
                         .toObject();
             },
 
-            timeLeftxv() {
-                return `${Math.floor(this.timeLeft.hours)} : ${Math.floor(this.timeLeft.minutes)} : ${Math.floor(this.timeLeft.seconds)}`;
+            timeLeftString() {
+                let t = {
+                    hours: this.formatTimeString(Math.floor(this.timeLeft.hours)),
+                    minutes: this.formatTimeString(Math.floor(this.timeLeft.minutes)),
+                    seconds: this.formatTimeString(Math.floor(this.timeLeft.seconds))
+                }
+
+                return `${t.hours} : ${t.minutes} : ${t.seconds}`;
             },
             
             countdownFinished() {
                 return this.millisecondsLeft <= 0;
-                //return `${Math.floor(Duration.fromMillis(timeLeft).shiftTo("hours").hours)} : ${Math.floor(Duration.fromMillis(timeLeft).shiftTo("minutes").minutes)} : ${Math.floor(Duration.fromMillis(timeLeft).shiftTo("seconds").seconds)}`;
             }
         },
+
         methods: {
             onPauseButtonTap() {
                 this.pauseTimer();
             },
+
+            onPlayButtonTap() {
+                this.resumeTimer();
+            },
+
             onStopButtonTap() {
                 this.stopTimer();                
             },
-            startTimer() {
-                // set start time now
-                this.startTime = DateTime.local().valueOf();
 
-                // start setinterval timer
+            startTimer() {
+                let start = DateTime.local().valueOf();
+                this.times.startTime = start;
+                this.times.currentTime = start;
                 this.timerId = setInterval(() => {
                     this.updateTimer();
                 }, 1000)
-
-                // set timer running to true
                 this.timerRunning = true;
+                this.updateTimer();
             },
 
             resumeTimer() {
-                // start setinterval timer
                 this.timerId = setInterval(() => {
                     this.updateTimer();
                 }, 1000)
-
-                // set timer running to true
                 this.timerRunning = true;
             },
 
             updateTimer() {
-                this.currentTime = DateTime.local().valueOf();                
+                this.times.currentTime = DateTime.local().valueOf();                
             },
 
             pauseTimer() {
-                // stop setinterval timer
                 clearInterval(this.timerId);
-                // set timer running to false
                 this.timerRunning = false;
             },
+
             stopTimer() {
                 clearInterval(this.timerId);
                 this.timerRunning = false;
-                // navigate back
+            },
+
+            formatTimeString(time){
+                if(time < 10){
+                    return `0${time}`
+                }
+                return `${time}`
             }
         },
-        created() {
+
+        mounted() {
             this.duration = Number(this.$route.params.duration);
-            this.startTimer();
+            setTimeout(() => this.startTimer(), 1500);
         }
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+.pause-button{
+    font-weight: bold;
+}
+.time-left{
+    color: white;
+    font-size: 80;
+    font-weight: bold;
+    text-align: center;
+}
+
+.view-timer{
+    background-color: rgb(48, 255, 48);
+
+    &.view-timer-done{
+        background-color: red;
+    }
+}
 </style>
