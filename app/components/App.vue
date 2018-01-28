@@ -1,16 +1,20 @@
 <template>
     <page actionBarHidden="true">
-        <stack-layout>
-            <grid-layout columns="*,*,*" rows="*,2*,*" height="240">
-                <button text="+" @tap="addOneUnitToDuration('h')" col="0" row="0"></button>
-                <button text="+" @tap="addOneUnitToDuration('m')" col="1" row="0"></button>
-                <button text="+" @tap="addOneUnitToDuration('s')" col="2" row="0"></button>
+        <stack-layout verticalAlignment="center">
+            <grid-layout
+                columns="*,*,*"
+                rows="*,2*,*"
+                height="240"
+                horizontalAlignment="center">
+                <label text="+" @tap="addOneUnitToDuration('h')" col="0" row="0"></label>
+                <label text="+" @tap="addOneUnitToDuration('m')" col="1" row="0"></label>
+                <label text="+" @tap="addOneUnitToDuration('s')" col="2" row="0"></label>
                 <label :text="hours | addTimeUnit('h')" col="0" row="1"></label>
                 <label :text="minutes | addTimeUnit('m')" col="1" row="1"></label>
                 <label :text="seconds | addTimeUnit('s')" col="2" row="1"></label>
-                <button text="-" @tap="minusOneUnitFromDuration('h')" col="0" row="2"></button>
-                <button text="-" @tap="minusOneUnitFromDuration('m')" col="1" row="2"></button>
-                <button text="-" @tap="minusOneUnitFromDuration('s')" col="2" row="2"></button>
+                <label text="-" @tap="minusOneUnitFromDuration('h')" col="0" row="2"></label>
+                <label text="-" @tap="minusOneUnitFromDuration('m')" col="1" row="2"></label>
+                <label text="-" @tap="minusOneUnitFromDuration('s')" col="2" row="2"></label>
             </grid-layout>
             <button text="Start Timer" @tap="onStartTimerTap"></button>
         </stack-layout>
@@ -28,9 +32,6 @@
                 minutes: 0,
                 seconds: 0
             }
-        },
-        computed: {
-            
         },
         methods: {
             addOneUnitToDuration(unit){
@@ -90,5 +91,6 @@
     }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+
 </style>

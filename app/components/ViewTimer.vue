@@ -2,20 +2,10 @@
     <page
         actionBarHidden="true"
         :class="{'view-timer': true, 'view-timer-done': countdownFinished}">
-        <stack-layout>
-            <grid-layout columns="*" rows="3*,*,*" height="240">
-                <label
-                    class="time-left"
-                    :text="timeLeftString"
-                    col="0"
-                    row="0"></label>
-                <label
-                    class="pause-button"
-                    text="||"
-                    col="0"
-                    row="1"></label>
-            </grid-layout>
-            <button text="Stop" @tap="onStopButtonTap"></button>
+        <stack-layout verticalAlignment="center">
+            <label class="time-left" :text="timeLeftString"></label>
+            <label class="pause-button control-button"  text="||" @tap="onPauseButtonTap"></label>
+            <label class="stop-button control-button" text="stop" @tap="onStopButtonTap"></label>
         </stack-layout>
     </page>
 </template>
@@ -59,12 +49,12 @@
 
             timeLeftString() {
                 let t = {
-                    hours: this.formatTimeString(Math.floor(this.timeLeft.hours)),
-                    minutes: this.formatTimeString(Math.floor(this.timeLeft.minutes)),
-                    seconds: this.formatTimeString(Math.floor(this.timeLeft.seconds))
+                    hours: this.formatTimeString(Math.ceil(this.timeLeft.hours)),
+                    minutes: this.formatTimeString(Math.ceil(this.timeLeft.minutes)),
+                    seconds: this.formatTimeString(Math.ceil(this.timeLeft.seconds))
                 }
 
-                return `${t.hours} : ${t.minutes} : ${t.seconds}`;
+                return `${t.hours}:${t.minutes}:${t.seconds}`;
             },
             
             countdownFinished() {
@@ -133,8 +123,12 @@
 </script>
 
 <style lang="scss" scoped>
-.pause-button{
+.control-button{
+    color: #000000;
+    font-size: 40;
     font-weight: bold;
+    margin: 20 0;
+    text-align: center;
 }
 .time-left{
     color: white;
@@ -147,7 +141,7 @@
     background-color: rgb(48, 255, 48);
 
     &.view-timer-done{
-        background-color: red;
+        background-color: rgb(255, 0, 0);
     }
 }
 </style>
