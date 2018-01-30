@@ -6,17 +6,18 @@
                 rows="*,2*,*"
                 height="240"
                 horizontalAlignment="center">
-                <label text="+" @tap="addOneUnitToDuration('h')" col="0" row="0"></label>
-                <label text="+" @tap="addOneUnitToDuration('m')" col="1" row="0"></label>
-                <label text="+" @tap="addOneUnitToDuration('s')" col="2" row="0"></label>
-                <label :text="hours | addTimeUnit('h')" col="0" row="1"></label>
-                <label :text="minutes | addTimeUnit('m')" col="1" row="1"></label>
-                <label :text="seconds | addTimeUnit('s')" col="2" row="1"></label>
-                <label text="-" @tap="minusOneUnitFromDuration('h')" col="0" row="2"></label>
-                <label text="-" @tap="minusOneUnitFromDuration('m')" col="1" row="2"></label>
-                <label text="-" @tap="minusOneUnitFromDuration('s')" col="2" row="2"></label>
+                <label text="+" class="button add-button" @tap="addOneUnitToDuration('h')" col="0" row="0"></label>
+                <label text="+" class="button add-button" @tap="addOneUnitToDuration('m')" col="1" row="0"></label>
+                <label text="+" class="button add-button" @tap="addOneUnitToDuration('s')" col="2" row="0"></label>
+                <label :text="hours | addTimeUnit('hours')" class="time-label" verticalAlignment="center" col="0" row="1"></label>
+                <label :text="minutes | addTimeUnit('min')" class="time-label" verticalAlignment="center" col="1" row="1"></label>
+                <label :text="seconds | addTimeUnit('sec')" class="time-label" verticalAlignment="center" col="2" row="1"></label>
+                <label text="-" class="button minus-button" @tap="minusOneUnitFromDuration('h')" col="0" row="2"></label>
+                <label text="-" class="button minus-button" @tap="minusOneUnitFromDuration('m')" col="1" row="2"></label>
+                <label text="-" class="button minus-button" @tap="minusOneUnitFromDuration('s')" col="2" row="2"></label>
             </grid-layout>
-            <button text="Start Timer" @tap="onStartTimerTap"></button>
+            <button text="Start Timer" class="label start-label" @tap="onStartTimerTap" horizontalAlignment="center"></button>
+            <button text="Reset" class="label reset-label" @tap="onResetTap" horizontalAlignment="center"></button>
         </stack-layout>
     </page>
 </template>
@@ -70,6 +71,12 @@
                 }).shiftTo("milliseconds").milliseconds;
             },
 
+            onResetTap() {
+                this.hours = 0;
+                this.minutes = 0;
+                this.seconds = 0;
+            },
+
             onStartTimerTap() {
                 this.$router.push({ name: 'Timer', params: { duration: this.getTotalDuration() }})
             }
@@ -92,5 +99,40 @@
 </script>
 
 <style lang="scss" scoped>
+.button {
+    font-size: 60;
+    font-weight: bold;
+    margin: 0;
+    text-align: center;
+}
 
+.time-label{
+    font-size: 30;
+    font-weight: bold;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+}
+
+.label{
+    &.start-label{
+        background-color: red;
+        border-radius: 50%;
+        color: blue;
+        height: 90;
+        margin: 10 0;
+        width: 90;
+    }
+
+    &.reset-label{
+        background-color: red;
+        border-radius: 50%;
+        color: blue;
+        height: 65;
+        width: 65;
+    }
+}
+page{
+    background-color: #f5f5f5;
+}
 </style>
