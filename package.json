@@ -4,11 +4,14 @@
   "readme": "NativeScript Application",
   "repository": "<fill-your-repository-here>",
   "nativescript": {
-    "id": "org.nativescript.timerapp"
+    "id": "org.nativescript.timerapp",
+    "tns-android": {
+      "version": "3.4.1"
+    }
   },
   "dependencies": {
     "luxon": "0.3.1",
-    "nativescript-vue": "^0.7.11",
+    "nativescript-vue": "^0.7.12",
     "tns-core-modules": "3.3.0",
     "vue-router": "^3.0.1"
   },
